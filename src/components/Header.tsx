@@ -1,13 +1,24 @@
-import { Bell, Globe, Shield, Droplets } from "lucide-react";
+import { Bell, Globe, Shield, Droplets, Home, Users, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
+  const location = useLocation();
+  
+  const isActive = (path: string) => location.pathname === path;
+  
+  const navItems = [
+    { path: "/", label: "Dashboard", icon: Home },
+    { path: "/community-records", label: "Community Records", icon: Users },
+    { path: "/disease-prediction", label: "Disease Prediction", icon: Brain },
+  ];
+
   return (
     <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-6">
+          <Link to="/" className="flex items-center gap-2">
             <div className="relative">
               <Droplets className="h-8 w-8 text-water-blue" />
               <Shield className="h-4 w-4 text-health-safe absolute -bottom-1 -right-1" />
@@ -16,7 +27,28 @@ const Header = () => {
               <h1 className="text-xl font-bold text-foreground">Health Twin</h1>
               <p className="text-xs text-muted-foreground">Northeast India</p>
             </div>
-          </div>
+          </Link>
+          
+          {/* Navigation Menu */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive(item.path)
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
 
         <div className="flex items-center gap-4">

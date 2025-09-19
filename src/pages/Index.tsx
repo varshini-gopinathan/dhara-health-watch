@@ -1,9 +1,14 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import RiskOverview from "@/components/RiskOverview";
 import DataMetrics from "@/components/DataMetrics";
 import AlertsPanel from "@/components/AlertsPanel";
+import DashboardCharts from "@/components/DashboardCharts";
+import StateSelector from "@/components/StateSelector";
 
 const Index = () => {
+  const [selectedState, setSelectedState] = useState("All States");
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -18,6 +23,9 @@ const Index = () => {
             AI-powered early warning system preventing water-borne diseases in Northeast India through real-time monitoring and community engagement
           </p>
         </div>
+
+        {/* State Selector */}
+        <StateSelector selectedState={selectedState} onStateChange={setSelectedState} />
 
         {/* Main Dashboard Grid */}
         <div className="grid lg:grid-cols-3 gap-8">
@@ -35,6 +43,12 @@ const Index = () => {
           <div className="lg:col-span-1">
             <AlertsPanel />
           </div>
+        </div>
+
+        {/* Charts Section */}
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold">Disease Analytics & Trends</h2>
+          <DashboardCharts />
         </div>
 
         {/* Bottom Section - Quick Actions */}
